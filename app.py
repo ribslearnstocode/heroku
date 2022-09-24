@@ -1,10 +1,9 @@
 import asyncio
 import signal
-import os
 import json
 import websockets
 from all_vuln_one_var import run_program
-
+import os
 
 async def hello():  # put application's code here
     await run_program()
@@ -19,12 +18,11 @@ async def echo(websocket):
 
         await websocket.send(json.dump(final_message))
 
-
 async def main():
     # Set the stop condition when receiving SIGTERM.
     loop = asyncio.get_running_loop()
     stop = loop.create_future()
-    loop.add_signal_handler(signal.SIGTERM, echo, None)
+    loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
 
     async with websockets.serve(
         echo,
@@ -32,6 +30,7 @@ async def main():
         port=int(os.environ["PORT"]),
     ):
         await stop
+
 
 
 if __name__ == "__main__":
