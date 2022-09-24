@@ -1,9 +1,11 @@
 import asyncio
 import signal
 import os
-
+import json
 import websockets
 from all_vuln_one_var import run_program
+
+
 
 async def echo(websocket):
     async for message in websocket:
@@ -12,7 +14,7 @@ async def echo(websocket):
         if message[0] == "start":
             final_message = run_program(message [1])
 
-        await websocket.send(final_message)
+        await websocket.send(json.dump(final_message))
 
 
 async def main():
