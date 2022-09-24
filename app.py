@@ -26,14 +26,19 @@ async def echo(websocket):
         await websocket.send(json.dumps(rs))
 
 
-async def main ():
+async def main():
+    # Set the stop condition when receiving SIGTERM.
+    loop = asyncio.get_running_loop()
+    stop = loop.create_future()
+    loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
 
-       async with websockets.serve(
+    async with websockets.serve(
         echo,
         host="",
-        port=int(os.environ.get("PORT", "8001")),
+        port=int(os.environ["PORT"]),
     ):
-        await asyncio.Future()
+        await stop
 
-if __name__=="__main__":
-    asyncio.run(main()) 
+
+if __name__ == "__main__":
+    asyncio.run(main())
