@@ -7,6 +7,7 @@ import os
 import asyncio
 import json
 from all_vuln_one_var import run_program
+import signal
 
 
 async def hello():
@@ -29,7 +30,7 @@ async def main ():
     
     loop = asyncio.get_running_loop()
     stop = loop.create_future()
-  
+    loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
 
     async with websockets.serve(
         echo,
