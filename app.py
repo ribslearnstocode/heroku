@@ -1,6 +1,8 @@
 from asyncio.windows_events import NULL
+from cgitb import handler
 import websockets
 import os
+
 
 import asyncio
 import json
@@ -23,10 +25,18 @@ async def echo(websocket):
         await websocket.send(json.dumps(rs))
 
 
+async def main ():
+    
+    loop = asyncio.get_running_loop()
+    stop = loop.create_future()
+  
 
-async def main():
-    async with websockets.serve(echo,  host="",
-        port=int(os.environ["PORT"])):
-        await asyncio.Future() 
+    async with websockets.serve(
+        echo,
+        host="",
+        port=int(os.environ["PORT"]),
+    ):
+        await stop
 
-asyncio.run(main())        
+if __name__=="__main__":
+    asyncio.run(main())        
