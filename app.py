@@ -6,6 +6,9 @@ import websockets
 from all_vuln_one_var import run_program
 
 
+async def hello():  # put application's code here
+    await run_program()
+    return json({'about': "Hello world"})
 
 async def echo(websocket):
     async for message in websocket:

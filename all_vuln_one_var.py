@@ -1,4 +1,4 @@
-import ipaddress
+
 import socket
 from IPy import IP
 import requests
