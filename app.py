@@ -3,11 +3,16 @@ import signal
 import os
 
 import websockets
-
+from all_vuln_one_var import run_program
 
 async def echo(websocket):
     async for message in websocket:
-        await websocket.send(message)
+        print(message)
+        message=message.split(" ")
+        if message[0] == "start":
+            final_message = run_program(message [1])
+
+        await websocket.send(final_message)
 
 
 async def main():
