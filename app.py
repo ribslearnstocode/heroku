@@ -1,29 +1,13 @@
-from asyncio.windows_events import NULL
-from cgitb import handler
-import websockets
+import asyncio
+import signal
 import os
 
-
-import asyncio
-import json
-from all_vuln_one_var import run_program
-import signal
-
-
-async def hello():
-    await run_program()
-    print("first function called")
-
+import websockets
 
 
 async def echo(websocket):
     async for message in websocket:
-        print(message)
-        if message != NULL:
-            message = message.split(" ")
-        if message[0]=="start":
-            rs=run_program(message[1])
-        await websocket.send(json.dumps(rs))
+        await websocket.send(message)
 
 
 async def main():
